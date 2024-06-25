@@ -44,4 +44,4 @@ __pycache__/
 .idea/
 
 # Images
-agents_images/
+#agents_images/

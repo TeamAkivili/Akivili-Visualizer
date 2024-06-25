@@ -59,8 +59,6 @@ For developers:
 
 3. **Configuration**: Set up your environment variables in a `.env` file:
 
-   Just rename .env.template to .env and set your values:
-
    ```plaintext
    DATABASE_URL="postgresql://<user>:<password>@localhost:5432/crew_ai_visualizer?schema=public"
 
