@@ -12,7 +12,7 @@ import { ApolloWrapper } from "@/utils/apollo_wrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CrewAI Visualizer",
+  title: "Akivili Visualizer",
   description: "Interactive user interface for CrewAI package.",
 };
 

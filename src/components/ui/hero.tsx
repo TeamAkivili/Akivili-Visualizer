@@ -87,7 +87,7 @@ export const HeroSection = () => {
         </span>
         <div className="relative w-[320px] text-center pt-5 space-x-2 h-[120px]  items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
           <span className="md:text-2xl text-base block bg-clip-text bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300 text-blue-500">
-            CrewAI Visualizer
+            Akivili Visualizer
           </span>
           <span className="text-base block bg-clip-text bg-gradient-to-r from-neutral-300 via-neutral-600 to-neutral-300">
             Build your Crew and do your Missions efficiantly

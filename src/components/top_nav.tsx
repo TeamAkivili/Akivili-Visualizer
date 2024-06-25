@@ -11,8 +11,8 @@ const TopNav = () => {
       <div className="flex flex-row justify-around items-center bg-transparent w-full">
         <Link href="/" className={`flex items-center`}>
           <Image
-            src="/crewai_logo.png"
-            alt="CrewAI Logo"
+            src="/akivili_logo_reverse.svg"
+            alt="AKIVILI Logo"
             width="50"
             height="50"
           />
