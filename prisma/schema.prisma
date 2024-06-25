@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AgentTool {
+  DUCK_DUCK_GO_SEARCH
+  SEMANTIC_SCHOLER
+  WIKIDATA
+  WIKIPEDIA
+  YAHOO_FINANCE
+  YUOUTUBE_SEARCH
+  ARXIV
+  PUBMED
+}
+
+model Agent {
+  id              Int         @id @default(autoincrement())
+  role            String
+  goal            String
+  backstory       String?
+  tools           AgentTool[] @default([])
+  allowDelegation Boolean     @default(false)
+  verbose         Boolean     @default(false)
+  memory          Boolean     @default(false)
+  image           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  missions Mission[]
+}
+
+enum MissionProcess {
+  SEQUENTIAL
+  HIERARCHICAL
+}
+
+model Mission {
+  id      Int            @id @default(autoincrement())
+  name    String
+  crew    Agent[]
+  tasks   Json[]         @default([])
+  verbose Boolean        @default(false)
+  process MissionProcess @default(SEQUENTIAL)
+  result  String         @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
