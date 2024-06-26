@@ -1,5 +1,5 @@
 # Stage 1: Python setup for node-gyp
-FROM python:3.12.4 AS python-builder
+FROM python:3.11 AS python-builder
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
@@ -10,12 +10,23 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Stage 2: Node setup and dependency installation
-FROM node:20.12.0 AS deps
+FROM node:lts-slim AS deps
 WORKDIR /app
 
 # Copy Python setup from previous stage
 COPY --from=python-builder /app/venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
+
+RUN apt update || : && apt install -y \
+    python3 \
+    build-essential \
+    python3-dev
+
+RUN apt install g++ make
+RUN npm install --global npm@latest
+RUN npm install --global node-gyp@latest
+RUN npm set registry https://registry.npmjs.org/
+RUN npm install --arch=arm64 --target_arch=arm64 node-calls-python
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
@@ -27,20 +38,23 @@ RUN \
   fi
 
 # Stage 3: Build application
-FROM node:20.12.0 AS builder
+FROM node:lts-slim AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Install Python development tools
-RUN apt-get update && apt-get install -y python3-dev
-RUN npm install python38-devel
 # Configure npm to retry on network failure
 RUN npm set fetch-retries 5
 RUN npm set fetch-retry-mintimeout 20000
 RUN npm set fetch-retry-maxtimeout 120000
 
 # Build the application
+RUN apt update -y && apt install -y openssl
+RUN apt install -y \
+    python3 \
+    build-essential \
+    python3-dev
+RUN npx prisma generate
+RUN npm ci -d
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
@@ -49,7 +63,7 @@ RUN \
   fi
 
 # Stage 4: Create final production image
-FROM node:20.12.0 AS runner
+FROM node:lts-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -65,7 +79,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 # Set permissions for next.js
-RUN mkdir .next
 RUN chown -R nextjs:nodejs /app
 
 USER nextjs
