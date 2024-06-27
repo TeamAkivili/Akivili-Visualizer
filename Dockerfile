@@ -53,8 +53,10 @@ RUN apt install -y \
     python3 \
     build-essential \
     python3-dev
-RUN npx prisma generate
+
 RUN npm ci -d
+RUN npx prisma generate
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
@@ -77,13 +79,14 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=python-builder /app/requirements.txt /app/requirements.txt
+COPY --from=python-builder /app/venv /app/venv
+COPY --from=builder /app/prisma /app/prisma
+COPY --from=builder /app/crew_ai.py /crew_ai.py
 
-# Set permissions for next.js
-RUN chown -R nextjs:nodejs /app
-
-USER nextjs
+RUN apt update -y && apt install -y openssl
 
 EXPOSE 3000
 ENV PORT=3000
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
