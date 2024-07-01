@@ -83,6 +83,7 @@ COPY --from=python-builder /app/requirements.txt /app/requirements.txt
 COPY --from=python-builder /app/venv /app/venv
 COPY --from=builder /app/prisma /app/prisma
 COPY --from=builder /app/crew_ai.py /crew_ai.py
+COPY --from=builder /app/crew_ai.py /app/crew_ai.py
 
 RUN apt update -y && apt install -y openssl
 RUN apt install -y \

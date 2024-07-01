@@ -1,4 +1,6 @@
 import os
+import sys
+import io
 # import agentops
 from textwrap import dedent
 from crewai import Agent, Task, Crew, Process
@@ -13,7 +15,8 @@ from langchain_community.tools.youtube.search import YouTubeSearchTool
 from langchain_community.tools.arxiv.tool import ArxivQueryRun
 from langchain_community.tools.pubmed.tool import PubmedQueryRun
 from dotenv import load_dotenv
-
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 # agentops.init(os.getenv("AGENT_TOP_API_KEY"))
