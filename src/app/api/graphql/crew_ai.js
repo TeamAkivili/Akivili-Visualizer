@@ -1,4 +1,5 @@
 import prisma from "@/utils/prisma";
+import path from "path";
 
 const nodecallspython = require("node-calls-python");
 
@@ -7,7 +8,7 @@ const py = nodecallspython.interpreter;
 py.addImportPath(process.env.PYTHON_SITE_PACKAGES);
 
 export function runMission(id) {
-  const crewaiPath = process.env.CREW_AI_PY_FILE;
+  const crewaiPath = path(__dirname, process.env.CREW_AI_PY_FILE);
   return py
     .import(crewaiPath)
     .then(async function (pymodule) {
