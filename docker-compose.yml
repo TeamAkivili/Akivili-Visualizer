@@ -5,10 +5,10 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:TeamAkivili@akivili-teamcrew-db-1.cfg4okws29wk.ap-northeast-2.rds.amazonaws.com:5432/crew_ai_visualizer?schema=public
       - OPENAI_MODEL_NAME=llama3
-      - OPENAI_API_BASE=https://akivili.ngrok.app/v1
+      - OPENAI_API_BASE=https://akivili.run/v1
       - OPENAI_API_KEY=NA
       - PYTHON_SITE_PACKAGES=./venv/lib/python3.11/site-packages
       - CREW_AI_PY_FILE=/app/crew_ai.py
       - AGENT_TOP_API_KEY=6ea748ab-82bd-4cff-bcb7-4afbd874e519
     ports:
-      - "3000:3000"
+      - "5000:3000"
