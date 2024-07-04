@@ -1,4 +1,5 @@
 type Tool =
+  | "GOOGLE_SERPER"
   | "DUCK_DUCK_GO_SEARCH"
   | "SEMANTIC_SCHOLER"
   | "WIKIDATA"

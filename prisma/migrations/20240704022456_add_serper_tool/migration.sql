@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "AgentTool" ADD VALUE 'GOOGLE_SERPER';

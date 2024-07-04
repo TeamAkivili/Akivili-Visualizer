@@ -47,6 +47,7 @@ export const agents: Array<Agent> = [
 ];
 
 export const tools = [
+  { text: "GOOGLE_SERPER", value: "GOOGLE_SERPER" },
   { text: "DUCK_DUCK_GO_SEARCH", value: "DUCK_DUCK_GO_SEARCH" },
   { text: "SEMANTIC_SCHOLER", value: "SEMANTIC_SCHOLER" },
   { text: "WIKIDATA", value: "WIKIDATA" },

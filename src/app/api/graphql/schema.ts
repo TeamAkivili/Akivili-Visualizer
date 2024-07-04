@@ -8,6 +8,7 @@ const typeDefs = `#graphql
         YUOUTUBE_SEARCH
         ARXIV
         PUBMED
+        GOOGLE_SERPER
     }
 
     type Agent {

@@ -4,6 +4,7 @@ import io
 # import agentops
 from textwrap import dedent
 from crewai import Agent, Task, Crew, Process
+from crewai_tools import SerperDevTool
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.ddg_search import DuckDuckGoSearchRun
 from langchain_community.tools.semanticscholar.tool import SemanticScholarQueryRun
@@ -14,13 +15,13 @@ from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
 from langchain_community.tools.youtube.search import YouTubeSearchTool
 from langchain_community.tools.arxiv.tool import ArxivQueryRun
 from langchain_community.tools.pubmed.tool import PubmedQueryRun
+from langtrace_python_sdk import langtrace, with_langtrace_root_span
 from dotenv import load_dotenv
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-# agentops.init(os.getenv("AGENT_TOP_API_KEY"))
-# agentops.init(skip_auto_end_session=True)
 
 process_type = {
     "SEQUENTIAL": Process.sequential,
@@ -28,6 +29,7 @@ process_type = {
 }
 
 tool_dict = {
+    "GOOGLE_SERPER": SerperDevTool(),
     "DUCK_DUCK_GO_SEARCH": DuckDuckGoSearchRun(),
     "SEMANTIC_SCHOLER": SemanticScholarQueryRun(),
     "WIKIDATA": WikidataQueryRun(api_wrapper=WikidataAPIWrapper()),
@@ -39,8 +41,11 @@ tool_dict = {
 }
 
 
+@with_langtrace_root_span()
 def run_mission(mission):
     try:
+        langtrace.init(api_key=os.getenv("LANGTRACE_API_KEY"), api_host=os.getenv("LANGTRACE_API_HOST"))
+
         llm = ChatOpenAI(
             model=os.getenv("OPENAI_MODEL_NAME"),
             verbose=True,
@@ -91,5 +96,3 @@ def run_mission(mission):
         print(e)
         return {"error": True, "message": str(e)}
 
-
-# agentops.end_session("Success")
