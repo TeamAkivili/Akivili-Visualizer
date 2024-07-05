@@ -10,5 +10,7 @@ services:
       - PYTHON_SITE_PACKAGES=./venv/lib/python3.11/site-packages
       - CREW_AI_PY_FILE=/app/crew_ai.py
       - AGENT_TOP_API_KEY=6ea748ab-82bd-4cff-bcb7-4afbd874e519
+      - LANGTRACE_API_KEY=ac5aa7d67e95090532ba090222854fa80aa004ca4c551a973bcfd87010d7030a
+      - LANGTRACE_API_HOST=https://akivili.ngrok.io/api/trace
     ports:
       - "5000:3000"
