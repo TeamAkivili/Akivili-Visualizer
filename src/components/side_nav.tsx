@@ -15,7 +15,7 @@ const SideNav = () => {
         className="flex flex-row space-x-1 items-center hover:bg-white/10 p-4 rounded-full duration-200"
       >
         <Image
-          src={"/akivili_logo_reverse.svg"}
+          src={"/akivili_logo_reverse_nbg.png"}
           alt="AKIVILI Logo"
           width="100"
           height="100"
