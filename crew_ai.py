@@ -40,12 +40,11 @@ tool_dict = {
     "PUBMED": PubmedQueryRun(),
 }
 
+langtrace.init(api_key=os.getenv("LANGTRACE_API_KEY"), api_host=os.getenv("LANGTRACE_API_HOST"))
 
 @with_langtrace_root_span()
 def run_mission(mission):
     try:
-        langtrace.init(api_key=os.getenv("LANGTRACE_API_KEY"), api_host=os.getenv("LANGTRACE_API_HOST"))
-
         llm = ChatOpenAI(
             model=os.getenv("OPENAI_MODEL_NAME"),
             verbose=True,
